@@ -1,0 +1,638 @@
+.admin-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  overflow: hidden;
+}
+/* Loading and Error States */
+
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 80px);
+  padding: 40px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #4299e1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-container p {
+  color: #4a5568;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.error-container h3 {
+  color: #2d3748;
+  font-size: 20px;
+  margin: 20px 0 10px;
+}
+
+.error-container p {
+  color: #e53e3e;
+  font-size: 14px;
+  margin-bottom: 24px;
+  max-width: 300px;
+}
+
+.error-icon {
+  width: 80px;
+  height: 80px;
+  opacity: 0.5;
+}
+
+.error-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.retry-btn {
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.retry-btn.primary {
+  background-color: #4299e1;
+  color: white;
+}
+
+.retry-btn.primary:hover {
+  background-color: #3182ce;
+}
+
+.retry-btn.secondary {
+  background-color: #edf2f7;
+  color: #4a5568;
+}
+
+.retry-btn.secondary:hover {
+  background-color: #e2e8f0;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-state h3 {
+  color: #2d3748;
+  font-size: 18px;
+  margin: 16px 0 8px;
+}
+
+.empty-state p {
+  color: #718096;
+  font-size: 14px;
+}
+/* Header - ONLY back button location */
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+
+.back-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  overflow: hidden;
+}
+
+.back-btn:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.1);
+}
+
+.back-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.admin-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.header-spacer {
+  width: 50px;
+}
+
+/* Subtitle */
+.admin-subtitle {
+  margin: 0;
+  padding: 15px 20px 10px;
+  color: #666;
+  font-size: 15px;
+  background-color: white;
+  flex-shrink: 0;
+}
+
+/* Medications List */
+.medications-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.medication-card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.medication-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.med-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.frequency-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #4a90e2;
+  font-weight: 600;
+}
+
+.frequency-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.frequency-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.med-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.med-details {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #666;
+  font-size: 15px;
+}
+
+.pill-icon-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.med-schedule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.water-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #e8f4fd;
+  color: #4a90e2;
+  padding: 6px 14px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.edit-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #e8f4fd;
+  color: #4a90e2;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.edit-btn:hover {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.delete-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #ffebee;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  overflow: hidden;
+}
+
+.delete-btn:hover {
+  background-color: #ff4444;
+  transform: scale(1.1);
+}
+
+.delete-icon-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.med-image {
+  width: 130px;
+  height: 130px;
+  border-radius: 15px;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-left: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.med-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Add New Button */
+.add-new-btn {
+  margin: 0 20px 20px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 17px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.add-new-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(74, 144, 226, 0.4);
+}
+
+.add-new-btn:active {
+  transform: translateY(0);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal {
+  background-color: white;
+  border-radius: 25px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.close-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  background-color: #e0e0e0;
+}
+
+/* Form */
+.med-form {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.image-upload-section {
+  display: flex;
+  justify-content: center;
+}
+
+.image-upload-label {
+  width: 170px;
+  height: 170px;
+  border-radius: 20px;
+  border: 3px dashed #4a90e2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  overflow: hidden;
+}
+
+.image-upload-label:hover {
+  background-color: #f0f8ff;
+  border-color: #357abd;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #4a90e2;
+}
+
+.camera-icon-img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+}
+
+.upload-placeholder span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  padding: 16px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 15px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.checkbox-group {
+  margin-top: 5px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.checkbox-label input {
+  display: none;
+}
+
+.checkmark {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #4a90e2;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.checkbox-label input:checked + .checkmark {
+  background-color: #4a90e2;
+}
+
+.checkbox-label input:checked + .checkmark::after {
+  content: "✓";
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.submit-btn {
+  padding: 20px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
+}
+
+/* Scrollbar */
+.medications-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.medications-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.medications-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .medication-card {
+    padding: 15px;
+  }
+
+  .med-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .med-name {
+    font-size: 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .back-icon-img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .pill-icon-img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .delete-icon-img {
+    width: 22px;
+    height: 22px;
+  }
+}

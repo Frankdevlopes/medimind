@@ -1,0 +1,1324 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  background-color: #f0f4f8;
+  -webkit-font-smoothing: antialiased;
+  color: #1a202c;
+}
+
+/* Main App Container */
+.app {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f0f4f8;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header - Clean and minimal */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+  height: 64px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background-color: #f7fafc;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.icon-btn:hover {
+  background-color: #edf2f7;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.profile-btn {
+  background-color: #ebf8ff;
+  border-color: #bee3f8;
+}
+
+.profile-icon-img {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.bell-btn {
+  background-color: #fffaf0;
+  border-color: #feebc8;
+  position: relative;
+}
+
+.bell-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.bell-btn.ringing {
+  animation: gentle-shake 2s ease-in-out infinite;
+}
+
+@keyframes gentle-shake {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  5%,
+  15% {
+    transform: rotate(-3deg);
+  }
+  10%,
+  20% {
+    transform: rotate(3deg);
+  }
+}
+
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: #e53e3e;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2d3748;
+  letter-spacing: -0.5px;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  gap: 24px;
+}
+
+/* Time Section - Clean typography */
+.time-section {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.time-display {
+  font-size: 72px;
+  font-weight: 300;
+  color: #1a202c;
+  line-height: 1;
+  letter-spacing: -2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.date-display {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* Content Grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Next Dose Card - Refined medical look */
+.next-dose-card {
+  background: linear-gradient(145deg, #4299e1 0%, #3182ce 100%);
+  border-radius: 24px;
+  padding: 28px;
+  color: white;
+  box-shadow:
+    0 4px 6px -1px rgba(66, 153, 225, 0.2),
+    0 10px 15px -3px rgba(66, 153, 225, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 280px;
+  position: relative;
+  overflow: hidden;
+}
+
+.next-dose-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.next-dose-card.urgent {
+  background: linear-gradient(145deg, #f56565 0%, #e53e3e 100%);
+  box-shadow:
+    0 4px 6px -1px rgba(245, 101, 101, 0.3),
+    0 10px 15px -3px rgba(245, 101, 101, 0.2);
+  animation: urgent-pulse 2s ease-in-out infinite;
+}
+
+@keyframes urgent-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 4px 6px -1px rgba(245, 101, 101, 0.3),
+      0 10px 15px -3px rgba(245, 101, 101, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 8px 12px -1px rgba(245, 101, 101, 0.4),
+      0 20px 25px -5px rgba(245, 101, 101, 0.3);
+  }
+}
+
+.pill-icon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.med-image-home {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.med-image-home img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dose-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.dose-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.dose-time {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 4px 0 0 0;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.next-dose-card.urgent .dose-label {
+  color: #fed7d7;
+}
+
+.next-dose-card.urgent .dose-time {
+  color: #fff5f5;
+}
+
+.medication-box {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(8px);
+}
+
+.med-name {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.med-instruction-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.med-instruction {
+  font-size: 15px;
+  margin: 0;
+  opacity: 0.95;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Water icon - Subtle and elegant */
+.water-icon-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+.water-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.water-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+/* Right Column */
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Scan Button - Modern 3D effect */
+.scan-button {
+  width: 100%;
+  background: linear-gradient(145deg, #f6e05e 0%, #ecc94b 100%);
+  border: none;
+  border-radius: 24px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  box-shadow:
+    0 4px 6px -1px rgba(236, 201, 75, 0.3),
+    0 10px 15px -3px rgba(236, 201, 75, 0.2),
+    inset 0 -3px 0 rgba(180, 150, 40, 0.3);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  justify-content: center;
+}
+
+.scan-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.scan-button:hover::before {
+  left: 100%;
+}
+
+.scan-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 12px -1px rgba(236, 201, 75, 0.4),
+    0 20px 25px -5px rgba(236, 201, 75, 0.3),
+    inset 0 -3px 0 rgba(180, 150, 40, 0.3);
+}
+
+.scan-button:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 2px 4px -1px rgba(236, 201, 75, 0.3),
+    inset 0 -1px 0 rgba(180, 150, 40, 0.3);
+}
+
+.scan-button.pulse {
+  animation: button-pulse 2s ease-in-out infinite;
+  background: linear-gradient(145deg, #fc8181 0%, #f56565 100%);
+  box-shadow:
+    0 4px 6px -1px rgba(245, 101, 101, 0.3),
+    0 10px 15px -3px rgba(245, 101, 101, 0.2),
+    inset 0 -3px 0 rgba(180, 60, 60, 0.3);
+}
+
+@keyframes button-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.camera-icon {
+  color: #744210;
+}
+
+.scan-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #744210;
+  letter-spacing: 0.5px;
+}
+
+/* Quick Stats - Clean cards */
+.quick-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px 16px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: #4299e1;
+  margin: 0;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #718096;
+  margin: 8px 0 0 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Bottom Navigation - Modern pill style */
+.bottom-nav {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px 24px;
+  border-top: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #a0aec0;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+  border-radius: 16px;
+  min-width: 80px;
+}
+
+.nav-item:hover {
+  background-color: #f7fafc;
+  color: #4a5568;
+}
+
+.nav-item.active {
+  color: #4299e1;
+  background-color: #ebf8ff;
+}
+
+.admin-nav-item.active {
+  color: #ed8936;
+  background-color: #fffaf0;
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 16px;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+  .time-display {
+    font-size: 56px;
+  }
+
+  .right-column {
+    flex-direction: row;
+  }
+
+  .scan-button {
+    flex: 2;
+  }
+
+  .quick-stats {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 12px 20px;
+    height: 56px;
+  }
+
+  .main-content {
+    padding: 16px 20px;
+  }
+
+  .time-display {
+    font-size: 48px;
+  }
+
+  .date-display {
+    font-size: 12px;
+  }
+
+  .next-dose-card {
+    padding: 20px;
+    min-height: 240px;
+  }
+
+  .med-name {
+    font-size: 24px;
+  }
+
+  .dose-time {
+    font-size: 28px;
+  }
+
+  .right-column {
+    flex-direction: column;
+  }
+
+  .quick-stats {
+    flex-direction: row;
+  }
+
+  .nav-item {
+    padding: 10px 16px;
+    min-width: 64px;
+  }
+
+  .scan-button {
+    padding: 24px 20px;
+  }
+
+  .scan-text {
+    font-size: 16px;
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Medication instruction row with water icon */
+.med-instruction-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.med-instruction {
+  font-size: 18px;
+  margin: 0;
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+/* Water icon container - ENLARGED */
+.water-icon-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: rgba(255, 255, 255, 0.25);
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+/* ENLARGED water icon */
+.water-icon {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.water-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+/* Urgent state styling */
+.next-dose-card.urgent .water-icon-container {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  animation: pulse-water 2s infinite;
+}
+
+@keyframes pulse-water {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .med-instruction-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .water-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .water-text {
+    font-size: 15px;
+  }
+
+  .water-icon-container {
+    padding: 10px 18px;
+  }
+}
+/* Profile button specific */
+.profile-btn {
+  padding: 0;
+  overflow: hidden;
+  background-color: transparent !important;
+}
+/* Medication image on home screen */
+.med-image-home {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.med-image-home img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Update pill-icon to use flex */
+.pill-icon {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #666;
+}
+.profile-icon-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.profile-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+}
+html,
+body,
+#root {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica",
+    "Arial", sans-serif;
+  background-color: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+  height: 70px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e8f4fd;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.icon-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Bell button specific */
+.bell-btn {
+  padding: 0;
+  overflow: visible;
+  background-color: transparent !important;
+}
+
+.bell-icon-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  display: block;
+  border-radius: 50%;
+}
+
+/* Ringing animation */
+.bell-btn.ringing {
+  animation: bell-shake 0.5s ease-in-out infinite;
+}
+
+.bell-btn.ringing .bell-icon-img {
+  animation: bell-ring 0.5s ease-in-out infinite;
+}
+
+@keyframes bell-shake {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: rotate(-10deg);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes bell-ring {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Notification badge */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff4444;
+  color: white;
+  font-size: 12px;
+  font-weight: 900;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: badge-pulse 1s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  min-height: 0;
+}
+
+.time-section {
+  text-align: center;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.time-display {
+  font-size: 80px;
+  font-weight: 900;
+  color: #1a1a1a;
+  line-height: 1;
+  letter-spacing: -3px;
+}
+
+.date-display {
+  font-size: 16px;
+  font-weight: 700;
+  color: #4a90e2;
+  letter-spacing: 3px;
+  margin-top: 5px;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  width: 100%;
+  max-width: 900px;
+  flex-shrink: 0;
+}
+
+/* Next Dose Card */
+.next-dose-card {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border-radius: 20px;
+  padding: 25px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(74, 144, 226, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+/* Urgent state when ringing */
+.next-dose-card.urgent {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+  animation: urgent-pulse 1s ease-in-out infinite;
+}
+
+@keyframes urgent-pulse {
+  0%,
+  100% {
+    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+  }
+  50% {
+    box-shadow: 0 15px 40px rgba(255, 107, 107, 0.6);
+  }
+}
+
+.pill-icon {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.pill-graphic {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pill-visual {
+  width: 32px;
+  height: 32px;
+  position: relative;
+}
+
+.pill-half {
+  position: absolute;
+  width: 16px;
+  height: 32px;
+  top: 0;
+}
+
+.pill-half.left {
+  left: 0;
+  background: linear-gradient(180deg, #ffd700 0%, #ffa500 100%);
+  border-radius: 16px 0 0 16px;
+  transform: rotate(-25deg);
+  transform-origin: right center;
+}
+
+.pill-half.right {
+  right: 0;
+  background: linear-gradient(180deg, #ffa500 0%, #ff8c00 100%);
+  border-radius: 0 16px 16px 0;
+  transform: rotate(-25deg);
+  transform-origin: left center;
+}
+
+.dose-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.dose-label {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.9;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.next-dose-card.urgent .dose-label {
+  color: #ffd700;
+  font-weight: 900;
+  animation: flash 0.5s ease-in-out infinite;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.dose-time {
+  font-size: 36px;
+  font-weight: 900;
+  margin: 5px 0 0 0;
+  line-height: 1;
+}
+
+.next-dose-card.urgent .dose-time {
+  font-size: 48px;
+  color: #ffd700;
+}
+
+.medication-box {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  padding: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+.med-name {
+  font-size: 28px;
+  font-weight: 900;
+  margin: 0 0 8px 0;
+  color: #ffd700;
+  line-height: 1.1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.med-instruction {
+  font-size: 16px;
+  margin: 0;
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Scan Button */
+.scan-button {
+  width: 100%;
+  background: linear-gradient(135deg, #ffd700 0%, #ffc107 100%);
+  border: none;
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow:
+    0 8px 0 #e6b800,
+    0 15px 30px rgba(255, 215, 0, 0.4);
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  justify-content: center;
+}
+
+.scan-button.pulse {
+  animation: button-pulse 1s ease-in-out infinite;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+  box-shadow:
+    0 8px 0 #d64545,
+    0 15px 30px rgba(255, 107, 107, 0.4);
+}
+
+@keyframes button-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.scan-button:active {
+  transform: translateY(8px);
+  box-shadow:
+    0 0 0 #e6b800,
+    0 5px 15px rgba(255, 215, 0, 0.4);
+}
+
+.scan-button.pulse:active {
+  box-shadow:
+    0 0 0 #d64545,
+    0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.camera-icon {
+  color: #1a1a1a;
+}
+
+.scan-text {
+  font-size: 24px;
+  font-weight: 900;
+  color: #1a1a1a;
+  letter-spacing: 2px;
+}
+
+.quick-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.stat-number {
+  font-size: 28px;
+  font-weight: 900;
+  color: #4a90e2;
+  margin: 0;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666;
+  margin: 5px 0 0 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.bottom-nav {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  border-top: 1px solid #e0e0e0;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+  height: 80px;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px 30px;
+  transition: all 0.2s;
+  border-radius: 12px;
+}
+
+.nav-item:hover {
+  background-color: #f5f5f5;
+}
+
+.nav-item.active {
+  color: #4a90e2;
+  background-color: #e8f4fd;
+}
+
+/* Responsive */
+@media (max-height: 800px) {
+  .time-display {
+    font-size: 60px;
+  }
+
+  .next-dose-card {
+    padding: 20px;
+  }
+
+  .med-name {
+    font-size: 24px;
+  }
+
+  .dose-time {
+    font-size: 32px;
+  }
+
+  .scan-button {
+    padding: 20px;
+  }
+
+  .scan-text {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+  .right-column {
+    flex-direction: row;
+  }
+
+  .scan-button {
+    flex: 2;
+  }
+
+  .quick-stats {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 10px 20px;
+    height: 60px;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+
+  .time-display {
+    font-size: 50px;
+  }
+
+  .right-column {
+    flex-direction: column;
+  }
+
+  .quick-stats {
+    flex-direction: row;
+  }
+
+  .nav-item {
+    padding: 8px 20px;
+  }
+}
+/* Add to bottom of App.css */
+
+.admin-nav-item {
+  position: relative;
+}
+
+.admin-nav-item::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  background-color: #ff4444;
+  border-radius: 50%;
+  display: none;
+}
+
+.admin-nav-item.active {
+  background-color: #fff3e0;
+  color: #ff9800;
+}
+
+.admin-nav-item:hover {
+  background-color: #fff3e0;
+}
