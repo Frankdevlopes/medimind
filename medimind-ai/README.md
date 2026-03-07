@@ -1,3 +1,4 @@
+<img width="987" height="987" alt="image" src="https://github.com/user-attachments/assets/91806167-7a06-4e79-a6ab-6b5ea81bbf32" />
 
 
 **MediMind** is a web application designed to help people living with dementia manage their daily medication safely and independently.
