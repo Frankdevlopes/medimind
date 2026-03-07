@@ -161,7 +161,30 @@ body {
   letter-spacing: -2px;
   font-variant-numeric: tabular-nums;
 }
+/* Header Logo Styles */
+.logo-title-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  justify-content: center;
+}
 
+.header-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px; /* Optional: adds rounded corners */
+}
+
+/* Adjust header layout if needed */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  /* Keep your existing header styles */
+}
 .date-display {
   font-size: 14px;
   font-weight: 600;

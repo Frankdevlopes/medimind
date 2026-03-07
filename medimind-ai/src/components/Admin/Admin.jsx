@@ -26,7 +26,6 @@ const Admin = ({ onBack }) => {
     image: null,
   });
 
-  // Load medications from Supabase on mount
   useEffect(() => {
     loadMedications();
   }, []);
@@ -35,10 +34,9 @@ const Admin = ({ onBack }) => {
     try {
       setLoading(true);
       const data = await getMedications();
-      setMedications(data);
+      setMedications(data || []);
     } catch (error) {
       console.error("Error loading medications:", error);
-      alert("Failed to load medications");
     } finally {
       setLoading(false);
     }
@@ -46,22 +44,21 @@ const Admin = ({ onBack }) => {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      try {
-        // Show preview immediately
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreviewImage(reader.result);
-        };
-        reader.readAsDataURL(file);
+    if (!file) return;
 
-        // Upload to Supabase Storage
-        const publicUrl = await uploadDrugImage(file);
-        setFormData({ ...formData, image: publicUrl });
-      } catch (error) {
-        console.error("Error uploading image:", error);
-        alert("Failed to upload image");
-      }
+    try {
+      const reader = new FileReader();
+      reader.onloadend = () => setPreviewImage(reader.result);
+      reader.readAsDataURL(file);
+
+      const publicUrl = await uploadDrugImage(file);
+
+      setFormData((prev) => ({
+        ...prev,
+        image: publicUrl,
+      }));
+    } catch (error) {
+      console.error("Image upload error:", error);
     }
   };
 
@@ -80,18 +77,24 @@ const Admin = ({ onBack }) => {
 
     try {
       if (editingMed) {
-        await updateMedication(editingMed.id, medicationData);
+        const updated = await updateMedication(editingMed.id, medicationData);
+
+        setMedications((prev) =>
+          prev.map((med) =>
+            med.id === editingMed.id ? { ...med, ...medicationData } : med,
+          ),
+        );
       } else {
-        await addMedication(medicationData);
+        const newMed = await addMedication(medicationData);
+
+        setMedications((prev) => [...prev, newMed]);
       }
 
-      await loadMedications(); // Reload from database
       resetForm();
       setShowAddForm(false);
       setEditingMed(null);
     } catch (error) {
-      console.error("Error saving medication:", error);
-      alert("Failed to save medication");
+      console.error("Save medication error:", error);
     }
   };
 
@@ -105,11 +108,13 @@ const Admin = ({ onBack }) => {
       withWater: true,
       image: null,
     });
+
     setPreviewImage(null);
   };
 
   const handleEdit = (med) => {
     setEditingMed(med);
+
     setFormData({
       name: med.name,
       dosage: med.dosage,
@@ -119,20 +124,20 @@ const Admin = ({ onBack }) => {
       withWater: med.with_water,
       image: med.image_url,
     });
+
     setPreviewImage(med.image_url);
     setShowAddForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this medication?"))
-      return;
+    if (!window.confirm("Delete this medication?")) return;
 
     try {
       await deleteMedication(id);
-      await loadMedications(); // Reload from database
+
+      setMedications((prev) => prev.filter((med) => med.id !== id));
     } catch (error) {
-      console.error("Error deleting medication:", error);
-      alert("Failed to delete medication");
+      console.error("Delete error:", error);
     }
   };
 
@@ -141,6 +146,7 @@ const Admin = ({ onBack }) => {
     if (frequency.includes("daily")) return <Clock size={24} color="#4A90E2" />;
     if (frequency.includes("Bedtime"))
       return <Moon size={24} color="#6B5B95" />;
+
     return (
       <img src="/drug-icon.jpeg" alt="pill" className="frequency-icon-img" />
     );
@@ -156,12 +162,13 @@ const Admin = ({ onBack }) => {
 
   return (
     <div className="admin-container">
-      {/* Header */}
       <header className="admin-header">
         <button className="back-btn" onClick={onBack}>
           <img src="/back.jpeg" alt="Back" className="back-icon-img" />
         </button>
+
         <h1>Medication Setup</h1>
+
         <div className="header-spacer"></div>
       </header>
 
@@ -169,7 +176,6 @@ const Admin = ({ onBack }) => {
         Add or edit medications for the daily schedule.
       </p>
 
-      {/* Medications List */}
       <div className="medications-list">
         {medications.length === 0 ? (
           <div className="empty-state">
@@ -194,6 +200,7 @@ const Admin = ({ onBack }) => {
                     alt="pill"
                     className="pill-icon-img"
                   />
+
                   <span>
                     {med.quantity} ({med.dosage})
                   </span>
@@ -202,6 +209,7 @@ const Admin = ({ onBack }) => {
                 <div className="med-schedule">
                   <Clock size={16} />
                   <span>{med.time}</span>
+
                   {med.with_water && (
                     <span className="water-badge">
                       <Droplet size={14} />
@@ -215,6 +223,7 @@ const Admin = ({ onBack }) => {
                     <Edit2 size={16} />
                     Edit
                   </button>
+
                   <button
                     className="delete-btn"
                     onClick={() => handleDelete(med.id)}
@@ -241,12 +250,12 @@ const Admin = ({ onBack }) => {
         Add New Medication
       </button>
 
-      {/* Modal */}
       {showAddForm && (
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header">
               <h2>{editingMed ? "Edit Medication" : "Add New Medication"}</h2>
+
               <button
                 className="close-btn"
                 onClick={() => {
@@ -278,6 +287,7 @@ const Admin = ({ onBack }) => {
                       <span>Upload Drug Photo</span>
                     </div>
                   )}
+
                   <input
                     type="file"
                     accept="image/*"
@@ -294,7 +304,10 @@ const Admin = ({ onBack }) => {
                   placeholder="e.g., Donepezil"
                   value={formData.name}
                   onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
+                    setFormData({
+                      ...formData,
+                      name: e.target.value,
+                    })
                   }
                   required
                 />
@@ -303,22 +316,31 @@ const Admin = ({ onBack }) => {
               <div className="form-row">
                 <div className="form-group">
                   <label>Dosage</label>
+
                   <input
                     type="text"
                     placeholder="e.g., 5mg"
                     value={formData.dosage}
                     onChange={(e) =>
-                      setFormData({ ...formData, dosage: e.target.value })
+                      setFormData({
+                        ...formData,
+                        dosage: e.target.value,
+                      })
                     }
                     required
                   />
                 </div>
+
                 <div className="form-group">
                   <label>Quantity</label>
+
                   <select
                     value={formData.quantity}
                     onChange={(e) =>
-                      setFormData({ ...formData, quantity: e.target.value })
+                      setFormData({
+                        ...formData,
+                        quantity: e.target.value,
+                      })
                     }
                   >
                     <option value="1 pill">1 pill</option>
@@ -333,21 +355,30 @@ const Admin = ({ onBack }) => {
               <div className="form-row">
                 <div className="form-group">
                   <label>Time</label>
+
                   <input
                     type="time"
                     value={formData.time}
                     onChange={(e) =>
-                      setFormData({ ...formData, time: e.target.value })
+                      setFormData({
+                        ...formData,
+                        time: e.target.value,
+                      })
                     }
                     required
                   />
                 </div>
+
                 <div className="form-group">
                   <label>Frequency</label>
+
                   <select
                     value={formData.frequency}
                     onChange={(e) =>
-                      setFormData({ ...formData, frequency: e.target.value })
+                      setFormData({
+                        ...formData,
+                        frequency: e.target.value,
+                      })
                     }
                   >
                     <option value="Every morning">Every morning</option>
@@ -363,10 +394,12 @@ const Admin = ({ onBack }) => {
                     type="checkbox"
                     checked={formData.withWater}
                     onChange={(e) =>
-                      setFormData({ ...formData, withWater: e.target.checked })
+                      setFormData({
+                        ...formData,
+                        withWater: e.target.checked,
+                      })
                     }
                   />
-                  <span className="checkmark"></span>
                   <Droplet size={18} />
                   Take with water
                 </label>

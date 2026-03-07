@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Home, Pill, HelpCircle, Users, Camera, Settings } from "lucide-react";
 import { getMedications } from "./services/database";
+
 import Help from "./components/Help/Help";
 import Admin from "./components/Admin/Admin";
+import Scanner from "./components/Scanner/Scanner";
+
 import "./App.css";
 
 function App() {
@@ -13,10 +16,10 @@ function App() {
   const [medications, setMedications] = useState([]);
   const [nextMed, setNextMed] = useState(null);
 
-  // Load medications from Supabase
+  // Load medications
   useEffect(() => {
     loadMedications();
-    const interval = setInterval(loadMedications, 60000); // Refresh every minute
+    const interval = setInterval(loadMedications, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -30,40 +33,33 @@ function App() {
     }
   };
 
-  // Find next medication based on current time
   const findNextMedication = (meds) => {
     const now = new Date();
-    const currentHours = now.getHours();
-    const currentMinutes = now.getMinutes();
-    const currentTimeNum = currentHours * 60 + currentMinutes;
+    const currentTimeNum = now.getHours() * 60 + now.getMinutes();
 
-    // Convert time string "08:00" to minutes
     const timeToMinutes = (timeStr) => {
       const [hours, minutes] = timeStr.split(":").map(Number);
       return hours * 60 + minutes;
     };
 
-    // Find medications that haven't been taken yet today
     const upcomingMeds = meds.filter((med) => {
       const medTime = timeToMinutes(med.time);
       return medTime > currentTimeNum;
     });
 
-    // Sort by time and get the closest one
     if (upcomingMeds.length > 0) {
       upcomingMeds.sort(
         (a, b) => timeToMinutes(a.time) - timeToMinutes(b.time),
       );
       setNextMed(upcomingMeds[0]);
     } else if (meds.length > 0) {
-      // If no upcoming meds today, show first med for tomorrow
       setNextMed(meds[0]);
     } else {
       setNextMed(null);
     }
   };
 
-  // Check if it's time to take medication
+  // Clock + alarm
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date();
@@ -75,6 +71,7 @@ function App() {
           minute: "2-digit",
           hour12: false,
         });
+
         setIsRinging(currentTimeStr === nextMed.time);
       }
     }, 1000);
@@ -102,6 +99,7 @@ function App() {
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+
     if (tab === "help") setCurrentView("help");
     else if (tab === "admin") setCurrentView("admin");
     else setCurrentView("home");
@@ -110,52 +108,62 @@ function App() {
   const handleBack = () => {
     setCurrentView("home");
     setActiveTab("home");
-    loadMedications(); // Refresh when returning
+    loadMedications();
   };
 
-  // Render Help view
+  // HELP PAGE
   if (currentView === "help") {
     return <Help onBack={handleBack} />;
   }
 
-  // Render Admin view
+  // ADMIN PAGE
   if (currentView === "admin") {
     return <Admin onBack={handleBack} />;
   }
 
-  // Render Home view
+  // SCANNER PAGE
+  if (currentView === "scanner") {
+    return <Scanner onBack={handleBack} />;
+  }
+
   return (
     <div className="app">
-      {/* Header */}
+      {/* HEADER */}
       <header className="header">
-        <button className="icon-btn profile-btn" aria-label="Profile">
+        <button className="icon-btn profile-btn">
           <img src="/profile.jpeg" alt="Profile" className="profile-icon-img" />
         </button>
-        <h1 className="app-title">MediMind AI</h1>
-        <button
-          className={`icon-btn bell-btn ${isRinging ? "ringing" : ""}`}
-          aria-label="Notifications"
-        >
+
+        {/* LOGO AND TITLE CONTAINER */}
+        <div className="logo-title-container">
+          <img
+            src="/medimind logo.jpeg"
+            alt="MediMind Logo"
+            className="header-logo"
+          />
+          <h1 className="app-title">MediMind</h1>
+        </div>
+
+        <button className={`icon-btn bell-btn ${isRinging ? "ringing" : ""}`}>
           <img
             src={isRinging ? "/bell-ringing.jpeg" : "/bell-not-ringing.jpeg"}
             alt="Notifications"
             className="bell-icon-img"
           />
-          {isRinging && <span className="notification-badge">1</span>}
         </button>
       </header>
 
-      {/* Main Content */}
+      {/* MAIN */}
       <main className="main-content">
-        {/* Time Display */}
+        {/* TIME */}
         <div className="time-section">
           <div className="time-display">{formatTime(currentTime)}</div>
           <div className="date-display">{formatDate(currentTime)}</div>
         </div>
 
-        {/* Content Grid */}
+        {/* GRID */}
         <div className="content-grid">
-          {/* Left Column - Next Dose with REAL medication from database */}
+          {/* NEXT DOSE */}
           <div className={`next-dose-card ${isRinging ? "urgent" : ""}`}>
             <div className="pill-icon">
               <div className="med-image-home">
@@ -164,49 +172,54 @@ function App() {
                   alt={nextMed?.name || "Medication"}
                 />
               </div>
+
               <div className="dose-info">
                 <p className="dose-label">
                   {isRinging ? "⚠️ TAKE NOW" : "Next Dose"}
                 </p>
+
                 <p className="dose-time">
-                  {isRinging ? "NOW" : nextMed?.time || "No medication"}
+                  {isRinging ? "NOW" : nextMed?.time || "--"}
                 </p>
               </div>
             </div>
+
             <div className="medication-box">
               <h2 className="med-name">
                 {nextMed?.name || "No medication scheduled"}
               </h2>
+
               <p className="med-instruction">
                 {nextMed
                   ? `${nextMed.quantity} (${nextMed.dosage})`
                   : "Add medications in Admin"}
-                {nextMed?.with_water && " - Take with water"}
               </p>
             </div>
           </div>
 
-          {/* Right Column */}
+          {/* RIGHT COLUMN */}
           <div className="right-column">
-            {/* Scan Button */}
+            {/* CAMERA BUTTON */}
             <button
               className={`scan-button ${isRinging ? "pulse" : ""}`}
-              onClick={() => alert("Opening camera...")}
+              onClick={() => setCurrentView("scanner")}
             >
               <div className="camera-icon">
                 <Camera size={48} strokeWidth={1.5} />
               </div>
+
               <span className="scan-text">
                 {isRinging ? "TAKE MY MEDS NOW" : "SCAN MY MEDS"}
               </span>
             </button>
 
-            {/* Quick Stats */}
+            {/* STATS */}
             <div className="quick-stats">
               <div className="stat-card">
                 <p className="stat-number">0/{medications.length}</p>
                 <p className="stat-label">Taken Today</p>
               </div>
+
               <div className="stat-card">
                 <p className="stat-number">85%</p>
                 <p className="stat-label">Weekly Adherence</p>
@@ -216,41 +229,29 @@ function App() {
         </div>
       </main>
 
-      {/* Bottom Navigation */}
+      {/* NAVIGATION */}
       <nav className="bottom-nav">
         <button
           className={`nav-item ${activeTab === "home" ? "active" : ""}`}
           onClick={() => handleTabClick("home")}
         >
-          <Home size={24} strokeWidth={2.5} />
+          <Home size={24} />
           <span>Home</span>
         </button>
-        <button
-          className={`nav-item ${activeTab === "meds" ? "active" : ""}`}
-          onClick={() => handleTabClick("meds")}
-        >
-          <Pill size={24} strokeWidth={2.5} />
-          <span>Meds</span>
-        </button>
+
         <button
           className={`nav-item ${activeTab === "help" ? "active" : ""}`}
           onClick={() => handleTabClick("help")}
         >
-          <HelpCircle size={24} strokeWidth={2.5} />
+          <HelpCircle size={24} />
           <span>Help</span>
         </button>
+
         <button
-          className={`nav-item ${activeTab === "care" ? "active" : ""}`}
-          onClick={() => handleTabClick("care")}
-        >
-          <Users size={24} strokeWidth={2.5} />
-          <span>Care</span>
-        </button>
-        <button
-          className={`nav-item admin-nav-item ${activeTab === "admin" ? "active" : ""}`}
+          className={`nav-item ${activeTab === "admin" ? "active" : ""}`}
           onClick={() => handleTabClick("admin")}
         >
-          <Settings size={24} strokeWidth={2.5} />
+          <Settings size={24} />
           <span>Admin</span>
         </button>
       </nav>
