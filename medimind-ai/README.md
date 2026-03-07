@@ -1,16 +1,30 @@
-# React + Vite
+<img width="987" height="987" alt="image" src="https://github.com/user-attachments/assets/91806167-7a06-4e79-a6ab-6b5ea81bbf32" />
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+**MediMind** is a web application designed to help people living with dementia manage their daily medication safely and independently.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Problem
 
-## React Compiler
+People living with dementia often experience memory loss and confusion, making it difficult to remember daily tasks such as taking medication. Many patients forget whether they have already taken their medicine, skip doses, or accidentally take the wrong pills.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This often happens at home where patients try to live independently without constant supervision. Missed or incorrect medication can lead to worsening health conditions, hospital visits, and increased stress for caregivers.
 
-## Expanding the ESLint configuration
+According to global health data, **about 57 million people worldwide live with dementia**, and this number continues to grow as the global population ages.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Solution
+
+MediMind aims to help dementia patients manage their medication schedules and support caregivers in monitoring medication adherence. The platform provides a simple digital solution to remind patients when to take their medication and reduce the risk of missed or incorrect doses.
+
+## Built With
+
+* React
+* Vite
+* JavaScript
+* CSS
+
+## Developers
+
+This project was built by:
+
+* **Francis Mwaura**
+* **Joseph Kimotho**
