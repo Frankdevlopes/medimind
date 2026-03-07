@@ -21,6 +21,8 @@ MediMind aims to help dementia patients manage their medication schedules and su
 * Vite
 * JavaScript
 * CSS
+* Supabase as database
+* 
 
 ## Developers
 
